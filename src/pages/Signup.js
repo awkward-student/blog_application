@@ -1,6 +1,8 @@
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Base from "../components/Base";
 import { useEffect, useState } from "react";
+import { signUp } from "../services/user-service";
+import { toast } from "react-toastify";
 
 const Signup=()=>{
 
@@ -10,29 +12,39 @@ const Signup=()=>{
         email:'',
         password:'',
         about:''
-    })
+    });
 
     // function setError()
     const [error, setError] = useState({
         errors:{},
         isError:false
-    })
+    });
 
 
     // handle form data change 
     const handleChange=(event, property)=>{
         // dynamically settin' the values 
-        setData({...data, [property]:event.target.value})
-    }
+        setData({...data, [property]:event.target.value});
+    };
 
     // submit+ing form data 
     const submitForm=(event)=>{
-        event.preventDefault()
+        // preventing reload on submit
+        event.preventDefault();
 
         // client side data validation 
 
         // calling server API for sending the data
-    }
+        signUp(data).then((resp) => {
+            console.log(resp);
+            console.log('Success log');
+            toast.success("User registered successfully.");
+            resetData();
+        }).catch((error) => {
+            console.log(error);
+            console.log('Error');
+        });
+    };
 
     // reset+ing form data 
     const resetData=()=>{
@@ -41,8 +53,8 @@ const Signup=()=>{
             email:'',
             password:'',
             about:''
-        })
-    }
+        });
+    };
     
     // testing handleChange() 
     // useEffect(()=>{
@@ -93,7 +105,7 @@ const Signup=()=>{
                                             id="password"
                                             type="password"
                                             placeholder="Create Password."
-                                            onChange={(event)=>handleChange(event, 'Password')}
+                                            onChange={(event)=>handleChange(event, 'password')}
                                             value={data.password}
                                         />
                                     </FormGroup>
