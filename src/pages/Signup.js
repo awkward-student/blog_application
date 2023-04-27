@@ -1,9 +1,59 @@
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Base from "../components/Base";
+import { useEffect, useState } from "react";
 
 const Signup=()=>{
+
+    // function setData()
+    const [data, setData] = useState({
+        name:'',
+        email:'',
+        password:'',
+        about:''
+    })
+
+    // function setError()
+    const [error, setError] = useState({
+        errors:{},
+        isError:false
+    })
+
+
+    // handle form data change 
+    const handleChange=(event, property)=>{
+        // dynamically settin' the values 
+        setData({...data, [property]:event.target.value})
+    }
+
+    // submit+ing form data 
+    const submitForm=(event)=>{
+        event.preventDefault()
+
+        // client side data validation 
+
+        // calling server API for sending the data
+    }
+
+    // reset+ing form data 
+    const resetData=()=>{
+        setData({
+            name:'',
+            email:'',
+            password:'',
+            about:''
+        })
+    }
+    
+    // testing handleChange() 
+    // useEffect(()=>{
+        // // testing data object values on console
+        // console.log(data);
+    // }, data)
+
+
     return(
         <Base>
+        {/* { JSON.stringify(data) } testing data object values on ui */}
             <Container>
                 <Row className="mt-4">
                     <Col sm={{ size: 6, offset: 3 }}>
@@ -13,7 +63,7 @@ const Signup=()=>{
                             </CardHeader>
                             <CardBody>
                                 {/* creating form  */}
-                                <Form>
+                                <Form onSubmit={submitForm}> 
                                     {/* name field  */}
                                     <FormGroup>
                                         <Label for="name">Enter Name</Label>
@@ -21,6 +71,8 @@ const Signup=()=>{
                                             id="name"
                                             type="text"
                                             placeholder="Your name here."
+                                            onChange={(event)=>handleChange(event, 'name')}
+                                            value={data.name}
                                         />
                                     </FormGroup>
                                     {/* email field  */}
@@ -30,6 +82,8 @@ const Signup=()=>{
                                             id="email"
                                             type="email"
                                             placeholder="example@mail.com"
+                                            onChange={(event)=>handleChange(event, 'email')}
+                                            value={data.email}
                                         />
                                     </FormGroup>
                                     {/* password field  */}
@@ -39,6 +93,8 @@ const Signup=()=>{
                                             id="password"
                                             type="password"
                                             placeholder="Create Password."
+                                            onChange={(event)=>handleChange(event, 'Password')}
+                                            value={data.password}
                                         />
                                     </FormGroup>
                                     {/* about field  */}
@@ -49,6 +105,8 @@ const Signup=()=>{
                                             type="textarea"
                                             placeholder="..."
                                             style={{height:"250px"}}
+                                            onChange={(event)=>handleChange(event, 'about')}
+                                            value={data.about}
                                         />
                                     </FormGroup>
                                     {/* submit button  */}
@@ -56,7 +114,7 @@ const Signup=()=>{
                                         <Button outline color="light">
                                             Register
                                         </Button>
-                                        <Button color="secondary" className="ms-2" type="reset">
+                                        <Button onClick={resetData} color="secondary" className="ms-2" type="reset">
                                             Reset
                                         </Button>
                                     </Container>
