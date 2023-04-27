@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormFeedback, FormGroup, Input, Label, Row } from "reactstrap";
 import Base from "../components/Base";
 import { useEffect, useState } from "react";
 import { signUp } from "../services/user-service";
@@ -32,17 +32,27 @@ const Signup=()=>{
         // preventing reload on submit
         event.preventDefault();
 
+        // if(error.isError){
+        //     toast.error("Form data invalid.");
+        //     setError({...error, isError: false});
+        //     return;
+        // }
+
         // client side data validation 
 
         // calling server API for sending the data
         signUp(data).then((resp) => {
             console.log(resp);
             console.log('Success log');
-            toast.success("User registered successfully.");
+            toast.success("User with id: "+resp.id+" registered successfully.");
             resetData();
         }).catch((error) => {
+            console.log("error log: called at ->");
             console.log(error);
-            console.log('Error');
+            setError({
+                errors:error,
+                isError:true
+            });
         });
     };
 
@@ -85,7 +95,11 @@ const Signup=()=>{
                                             placeholder="Your name here."
                                             onChange={(event)=>handleChange(event, 'name')}
                                             value={data.name}
+                                            invalid={error.errors?.response?.data?.name ? true: false}
                                         />
+                                        <FormFeedback>
+                                            {error.errors?.response?.data?.name}
+                                        </FormFeedback>
                                     </FormGroup>
                                     {/* email field  */}
                                     <FormGroup>
@@ -96,7 +110,11 @@ const Signup=()=>{
                                             placeholder="example@mail.com"
                                             onChange={(event)=>handleChange(event, 'email')}
                                             value={data.email}
+                                            invalid={error.errors?.response?.data?.email ? true: false}
                                         />
+                                        <FormFeedback>
+                                            {error.errors?.response?.data?.email}
+                                        </FormFeedback>
                                     </FormGroup>
                                     {/* password field  */}
                                     <FormGroup>
@@ -107,7 +125,11 @@ const Signup=()=>{
                                             placeholder="Create Password."
                                             onChange={(event)=>handleChange(event, 'password')}
                                             value={data.password}
+                                            invalid={error.errors?.response?.data?.password ? true: false}
                                         />
+                                        <FormFeedback>
+                                            {error.errors?.response?.data?.password}
+                                        </FormFeedback>
                                     </FormGroup>
                                     {/* about field  */}
                                     <FormGroup>
@@ -119,7 +141,11 @@ const Signup=()=>{
                                             style={{height:"250px"}}
                                             onChange={(event)=>handleChange(event, 'about')}
                                             value={data.about}
+                                            invalid={error.errors?.response?.data?.about ? true: false}
                                         />
+                                        <FormFeedback>
+                                            {error.errors?.response?.data?.about}
+                                        </FormFeedback>
                                     </FormGroup>
                                     {/* submit button  */}
                                     <Container className="text-center">
