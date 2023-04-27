@@ -32,13 +32,13 @@ const Signup=()=>{
         // preventing reload on submit
         event.preventDefault();
 
+        
+        // client side data validation 
         // if(error.isError){
         //     toast.error("Form data invalid.");
         //     setError({...error, isError: false});
         //     return;
         // }
-
-        // client side data validation 
 
         // calling server API for sending the data
         signUp(data).then((resp) => {
