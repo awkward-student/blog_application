@@ -9,6 +9,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import About from './pages/About';
 import Services from './pages/Services';
+import Dashboard from './pages/user-routes/Dashboard';
+import PrivateRoutes from './components/PrivateRoutes';
+import ProfileInfo from './pages/user-routes/ProfileInfo';
 
 function App() {
   return (
@@ -20,6 +23,11 @@ function App() {
         <Route path="/signup" element={ <Signup /> }/>
         <Route path="/about" element={ <About /> }/>
         <Route path="/services" element={ <Services /> }/>
+
+        <Route path='/user' element={ <PrivateRoutes />} >
+          <Route path='dashboard' element={ <Dashboard /> }/>
+          <Route path='profile-info' element={ <ProfileInfo /> }/>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
