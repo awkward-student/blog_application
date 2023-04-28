@@ -3,6 +3,7 @@ import Base from "../components/Base";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/user-service";
+import { doLogin } from "../auth";
 
 const Login=()=>{
 
@@ -25,9 +26,16 @@ const Login=()=>{
         };
 
         // calling server API for sending the data
-        loginUser(loginDetails).then((jwtTokenData) =>{
-            console.log('user login: ');
-            console.log(jwtTokenData);
+        loginUser(loginDetails).then((data) =>{
+            console.log(data);
+
+            // saving data to loacl storage 
+            doLogin(data, ()=>{
+                console.log("login data is saved to local storage");
+
+                // redirecting user to dashboard 
+            });
+
             toast.success("Login successfull.")
         }).catch(error=>{
             console.log(error);
