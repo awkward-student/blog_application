@@ -5,7 +5,7 @@ const Base=({ title = "Welcome to our website", children })=>{
         <div className="container-fluid p-0 m-0">
             <CustomNavbar />
 
-            {children};
+            {children}
         </div>
     );
 };

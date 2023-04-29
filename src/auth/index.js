@@ -19,6 +19,6 @@ export const doLogout=(next)=>{
 
 // get current user 
 export const getCurrentUserDetail=()=>{
-    if(isLoggedIn) return JSON.parse(localStorage.getItem("data")).user;
-    else return false;
+    if(isLoggedIn()) return JSON.parse(localStorage.getItem("data")).user;
+    else return undefined;
 };
