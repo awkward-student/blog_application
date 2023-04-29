@@ -2,12 +2,12 @@ import { AXIOS } from "./helper"
 
 export const signUp = (user) => {
     return AXIOS
-    .post('/api/v1/auth/register', user)
+    .post('/auth/register', user)
     .then((response) => response.data);
 };
 
 export const loginUser = (loginDetails) => {
     return AXIOS
-    .post('/api/v1/auth/login', loginDetails)
+    .post('/auth/login', loginDetails)
     .then((response) => response.data);
 };
