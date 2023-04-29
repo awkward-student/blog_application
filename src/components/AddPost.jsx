@@ -1,10 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Card, CardBody, CardHeader, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { loadAllCategories } from "../services/category-service";
+import JoditEditor from "jodit-react";
 
 const AddPost=()=>{
 
-    const [categories, setCategories] = useState([])
+    const editor = useRef(null);
+
+    const [content, setContent] = useState('');
+
+    const [categories, setCategories] = useState([]);
+
+    const config = {
+        placeholder:"Start typing..."
+    }
 
     useEffect(
         () => {
@@ -21,7 +30,7 @@ const AddPost=()=>{
         <div className="wrapper">
             <Card className="shadow-sm mt-3">
                 <CardHeader>
-                    <h3>What's going on your mind.</h3>
+                    <h3>What's going on your mind?</h3>
                 </CardHeader>
                 <CardBody>
                     <Form>
@@ -38,12 +47,18 @@ const AddPost=()=>{
 
                         <FormGroup className="my-3"> 
                             <Label for="content">Post Content</Label>
-                            <Input 
+                            {/* <Input 
                             type="textarea"
                             id="content"
                             placeholder="Blog content"
                             // className="rounded-0"
                             style={{height:'300px'}}
+                            /> */}
+                            <JoditEditor 
+                                ref={editor}
+                                value={content}
+                                config={config}
+                                onChange={newContent => setContent(newContent)}
                             />
                         </FormGroup>
 
@@ -71,6 +86,7 @@ const AddPost=()=>{
                         </Container>
 
                     </Form>
+                    {content}
                 </CardBody>
             </Card>
         </div>
