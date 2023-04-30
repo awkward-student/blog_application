@@ -2,21 +2,32 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Card, CardBody, CardHeader, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { loadAllCategories } from "../services/category-service";
 import JoditEditor from "jodit-react";
+import { toast } from "react-toastify";
+import { createPost as doCreatePost } from "../services/post-service";
+import { getCurrentUserDetail } from "../auth/index";
 
 const AddPost=()=>{
 
     const editor = useRef(null);
 
-    const [content, setContent] = useState('');
+    // const [content, setContent] = useState('');
 
     const [categories, setCategories] = useState([]);
+    const [user, setUser] = useState(undefined)
 
-    const config = {
-        placeholder:"Start typing..."
-    }
+    const [post, setPost] = useState({
+        title:'',
+        content:'',
+        categoryId:''
+    });
+
+    // const config = {
+    //     placeholder:"Start typing..."
+    // }
 
     useEffect(
         () => {
+            setUser(getCurrentUserDetail())
             loadAllCategories().then((data)=>{
                 console.log(data);
                 setCategories(data);
@@ -26,6 +37,44 @@ const AddPost=()=>{
         }, []
     );
 
+    // field changed function
+    const fieldChanged=(event)=>{
+        // console.log(event);
+        setPost({...post, [event.target.name]:event.target.value})
+    }
+
+    const contentFieldChanged=(data)=>{
+        setPost({...post,'content':data})
+    }
+
+    const createPost=(event)=>{
+        event.preventDefault();
+        if(post.title.trim()===''){
+            toast.error("Post title is required.");
+            return;
+        }
+        if(post.content.trim()===''){
+            toast.error("Post content is required.");
+            return;
+        }
+        if(post.categoryId===''){
+            toast.error("Post category is required.");
+            return;
+        }    
+
+        // submit form on server
+        post['userId'] = user.id
+
+        doCreatePost(post).then((data) => {
+            toast.success("Post published")
+            console.log(post)
+            console.log(data)
+        }).catch((error)=>{
+            console.log(error)
+            toast.error("Something went wrong")
+        })
+    }
+
     return(
         <div className="wrapper">
             <Card className="shadow-sm mt-3">
@@ -33,7 +82,7 @@ const AddPost=()=>{
                     <h3>What's going on your mind?</h3>
                 </CardHeader>
                 <CardBody>
-                    <Form>
+                    <Form onSubmit={createPost}>
 
                         <FormGroup className="my-3"> 
                             <Label for="title">Post title</Label>
@@ -42,6 +91,8 @@ const AddPost=()=>{
                             id="title"
                             placeholder="Blog title"
                             // className="rounded-0"
+                            name="title"
+                            onChange={fieldChanged}
                             />
                         </FormGroup>
 
@@ -56,9 +107,8 @@ const AddPost=()=>{
                             /> */}
                             <JoditEditor 
                                 ref={editor}
-                                value={content}
-                                config={config}
-                                onChange={newContent => setContent(newContent)}
+                                value={post.content}
+                                onChange={contentFieldChanged}
                             />
                         </FormGroup>
 
@@ -69,7 +119,11 @@ const AddPost=()=>{
                             id="category"
                             placeholder="Blog content"
                             // className="rounded-0"
+                            name="categoryId"
+                            onChange={fieldChanged}
+                            defaultValue={0}
                             >
+                                <option disabled value={0}>-- select category --</option>
                                 {
                                     categories.map((category) => (
                                         <option value={category.categoryId} key={category.categoryId}>
@@ -81,12 +135,11 @@ const AddPost=()=>{
                         </FormGroup>
 
                         <Container className="text-center">
-                            <Button color="primary">Publish Post</Button>
+                            <Button type='submit' color="primary">Publish Post</Button>
                             <Button className="ms-2" color="danger">Reset Content</Button>
                         </Container>
 
                     </Form>
-                    {content}
                 </CardBody>
             </Card>
         </div>
