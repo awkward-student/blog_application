@@ -65,7 +65,7 @@ function NewFeed() {
                 }
 
                 <Container className='text-center mt-3'>
-                <Pagination size='lg'>
+                <Pagination size=''>
                     <PaginationItem onClick={()=>changePage(postContent.pageNumber-1)} disabled={postContent.pageNumber==0}>
                         <PaginationLink previous>
                             Previous

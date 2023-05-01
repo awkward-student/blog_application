@@ -14,4 +14,8 @@ export const loadAllPost=(pageNumber, pageSize)=>{
 // load single post by id 
 export const loadPost=(postId)=>{
     return AXIOS.get("/posts/"+postId).then((response)=>response.data);
+};
+
+export const createComment=(comment, postId)=>{
+    return PRIVATE_AXIOS.post('post/'+postId+'/comments', comment)
 }
