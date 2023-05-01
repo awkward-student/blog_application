@@ -12,6 +12,7 @@ import Services from './pages/Services';
 import Dashboard from './pages/user-routes/Dashboard';
 import PrivateRoutes from './components/PrivateRoutes';
 import ProfileInfo from './pages/user-routes/ProfileInfo';
+import Posts from './pages/PostPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
     <ToastContainer position='bottom-center'/>
       <Routes>
         <Route path="/" element={ <Home /> }/>
+        <Route path="/posts/:postId" element={ <Posts /> }/>
         <Route path="/login" element={ <Login /> }/>
         <Route path="/signup" element={ <Signup /> }/>
         <Route path="/about" element={ <About /> }/>

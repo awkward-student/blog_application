@@ -8,5 +8,10 @@ export const createPost=(postData)=>{
 
 // get all posts 
 export const loadAllPost=(pageNumber, pageSize)=>{
-    return AXIOS.get('/posts?pageNumber='+pageNumber+'&pageSize='+pageSize).then((response)=>response.data);
+    return AXIOS.get('/posts?pageNumber='+pageNumber+'&pageSize='+pageSize+'&sortBy=addedDate&sortDir=desc').then((response)=>response.data);
 };
+
+// load single post by id 
+export const loadPost=(postId)=>{
+    return AXIOS.get("/posts/"+postId).then((response)=>response.data);
+}
