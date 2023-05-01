@@ -1,12 +1,15 @@
+import { useEffect } from "react";
 import Base from "../components/Base";
+import NewFeed from "../components/NewFeed";
+import { Container } from "reactstrap";
 
 const Home=()=>{
+
     return(
         <Base>
-            <div>
-                <h1>This is home page.</h1>
-                <p>Welcome to home page.</p>
-            </div>
+           <Container>
+                <NewFeed />
+           </Container>
         </Base>
     );
 };

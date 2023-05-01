@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+/*  */
+
+.page-item.active .page-link{
+  background-color: #121212!important;
+  border-color: #121212!important;
+  color: #f9f9f9!important;
+}
+
+.page-item .page-link{
+  color: #121212!important;
+}
