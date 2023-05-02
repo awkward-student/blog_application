@@ -37,3 +37,15 @@ export function loadPostCategoryWise(categoryId)
     return PRIVATE_AXIOS.get('/category/'+categoryId+'/posts')
     .then((response)=>response.data);
 } 
+
+
+export function loadPostUserWise(userId){
+    return PRIVATE_AXIOS.get('/user/'+userId+'/posts')
+    .then((response)=>response.data)
+}
+
+
+export function deletePostService(postId){
+    return PRIVATE_AXIOS.delete('/posts/'+postId)
+    .then(res=>res.data);
+}

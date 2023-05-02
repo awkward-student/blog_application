@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { loadAllPost } from '../services/post-service'
+import { deletePostService, loadAllPost } from '../services/post-service'
 import { Row, Col, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap';
 import Post from './Post';
 import { toast } from 'react-toastify';
@@ -56,6 +56,23 @@ function NewFeed() {
         })
     };
 
+
+    function deletePost(post){
+        //going to del post
+        deletePostService(post.postId).then(res=>{
+            console.log(res);
+            toast.success("Post Deleted");
+
+            let newPostContents = postContent.content.filter(p=>p.postId!=post.postId)
+            setPostContent({...postContent, content:newPostContents})
+
+        }).catch((error)=>{
+            console.log(error);
+            toast.error("Error in deleting post")
+        })
+    }
+
+
     const changePageInfinite=()=>{
         console.log("page changed");
         setCurrentPage(currentPage+1)
@@ -85,7 +102,7 @@ function NewFeed() {
                 >
                 {
                     postContent.content.map((post)=>(
-                        <Post post={post} key={post.postId}/>
+                        <Post deletePost={deletePost} post={post} key={post.postId}/>
                     ))
                 }
                 </InfiniteScroll>
