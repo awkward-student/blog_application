@@ -11,3 +11,7 @@ export const loginUser = (loginDetails) => {
     .post('/auth/login', loginDetails)
     .then((response) => response.data);
 };
+
+export const getUser=(userId)=>{
+    return AXIOS.get('/users/'+userId).then(resp=>resp.data)
+}
