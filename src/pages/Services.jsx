@@ -6,7 +6,7 @@ const Services=()=>{
         <userContext.Consumer>
             {(user)=>(
                 <Base>
-                    <h1>This is services page. { user.user.login && user.user.data.user.name}</h1>
+                    {/* <h1>This is services page. { user.user.login && user.user.data.user.name}</h1> */}
                 </Base>
             )}
         </userContext.Consumer>

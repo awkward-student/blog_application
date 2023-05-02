@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getUser } from '../../services/user-service';
 import { toast } from 'react-toastify';
 import { Card, CardBody, CardHeader, Col, Container, Row, Table } from 'reactstrap';
+import ViewUserProfile from '../../components/ViewUserProfile';
 
 function ProfileInfo() {
 
@@ -33,80 +34,11 @@ function ProfileInfo() {
       <Row>
         <Col md={
           {
-            size:8,
-            offset:2
+            size:6,
+            offset:3
           }
         }>
-          <Card className='mt-5 text-center'>
-            <CardHeader>
-              <h3 className='text-uppercase'>User Information</h3>
-            </CardHeader>
-            <CardBody>
-              <Container >
-                <img style={{maxWidth:'200px', maxHeight:'200px'}} src='https://st2.depositphotos.com/1009634/7235/v/950/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg' alt='User profile picture' className='img-fluid rounded-circle'/>
-              </Container>
-              <Table bordered={true} className='mt-3'>
-                {/* <thead>
-                  <tr>
-
-                  </tr>
-                </thead> */}
-
-                <tbody>
-                  <tr>
-                    <td>
-                      PROFILE ID
-                    </td>
-                    <td>
-                      PEN-IT@{user.id}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      USER NAME
-                    </td>
-                    <td>
-                      {user.name}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      USER EMAIL
-                    </td>
-                    <td>
-                      {user.email}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      USER ABOUT
-                    </td>
-                    <td>
-                      {user.about}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      USER ROLE
-                    </td>
-                    <td>
-                      {user.roles.map((role)=>{
-                        return(
-                          <div key={role.id}>{
-                              role.name
-                            }</div>
-                        )
-                      })}
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
+          <ViewUserProfile user={user} />
         </Col>
       </Row>
     )

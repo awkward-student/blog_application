@@ -9,7 +9,7 @@ const About=()=>{
                     <h1>This is about page.</h1>
                     <p>We are building blog web app.</p>
                     {console.log(object)}
-                    <h1>Welcome {object.user.login && object.user.data.user.name} </h1>
+                    {/* <h1>Welcome {object.user.login && object.user.data.user.name} </h1> */}
                 </Base>
             )}
         </userContext.Consumer>

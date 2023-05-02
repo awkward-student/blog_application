@@ -69,17 +69,17 @@ const CustomNavbar=()=>{
             <NavItem>
               <NavLink tag={ ReactLink } to="/about">About</NavLink>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <NavLink tag={ ReactLink } to="/services">Services</NavLink>
-            </NavItem>
+            </NavItem> */}
            
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem tag={ReactLink} to="/contact">Contact Us</DropdownItem>
-                <DropdownItem>Forum</DropdownItem>
+                <DropdownItem tag={ReactLink} to="/contact">Contact</DropdownItem>
+                <DropdownItem>Docs</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Developer</DropdownItem>
               </DropdownMenu>
