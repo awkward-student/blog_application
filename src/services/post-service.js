@@ -18,4 +18,15 @@ export const loadPost=(postId)=>{
 
 export const createComment=(comment, postId)=>{
     return PRIVATE_AXIOS.post('post/'+postId+'/comments', comment)
-}
+};
+
+// uplaod post image 
+export const uplaodPostImage=(image, postId)=>{
+    let formData = new FormData();
+    formData.append("image", image);
+    return PRIVATE_AXIOS.post('/post/image/upload/'+postId, formData, {
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
+    }).then((response)=>response.data);
+};

@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, Container, Form, FormGroup, Input, 
 import { loadAllCategories } from "../services/category-service";
 import JoditEditor from "jodit-react";
 import { toast } from "react-toastify";
-import { createPost as doCreatePost } from "../services/post-service";
+import { createPost as doCreatePost, uplaodPostImage } from "../services/post-service";
 import { getCurrentUserDetail } from "../auth/index";
 
 const AddPost=()=>{
@@ -20,6 +20,8 @@ const AddPost=()=>{
         content:'',
         categoryId:''
     });
+
+    const [image, setImage] = useState(null)
 
     // const config = {
     //     placeholder:"Start typing..."
@@ -66,13 +68,32 @@ const AddPost=()=>{
         post['userId'] = user.id
 
         doCreatePost(post).then((data) => {
+
+            uplaodPostImage(image, data.postId).then((data)=>{
+                toast.success("Image uploaded")
+            }).catch((error)=>{
+                toast.error("Error uploading image");
+                console.log(error);
+            })
+
             toast.success("Post published")
             console.log(post)
             console.log(data)
+            setPost({
+                title:'',
+                content:'',
+                categoryId: ''
+            })
         }).catch((error)=>{
             console.log(error)
             toast.error("Something went wrong")
         })
+    }
+
+    // handling file change event 
+    const handleFileChange=(event)=>{
+        console.log(event.target.files[0])
+        setImage(event.target.files[0])
     }
 
     return(
@@ -111,6 +132,12 @@ const AddPost=()=>{
                                 onChange={contentFieldChanged}
                             />
                         </FormGroup>
+
+                        {/* file field  */}
+                        <div className="mt-3">
+                            <label For="banner">Select post banner</label>
+                            <Input className="mt-1" id="banner" type="file" onChange={handleFileChange}/>
+                        </div>
 
                         <FormGroup className="my-3"> 
                             <Label for="category">Post Category</Label>

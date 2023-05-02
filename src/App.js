@@ -13,9 +13,11 @@ import Dashboard from './pages/user-routes/Dashboard';
 import PrivateRoutes from './components/PrivateRoutes';
 import ProfileInfo from './pages/user-routes/ProfileInfo';
 import Posts from './pages/PostPage';
+import UserProvider from './context/UserProvider';
 
 function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
     <ToastContainer position='bottom-center'/>
       <Routes>
@@ -32,6 +34,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </UserProvider>
   );
 }
 
