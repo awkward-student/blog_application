@@ -49,3 +49,9 @@ export function deletePostService(postId){
     return PRIVATE_AXIOS.delete('/posts/'+postId)
     .then(res=>res.data);
 }
+
+// update post
+export function updatePost(post, postId){
+    return PRIVATE_AXIOS.put('/posts/'+postId, post)
+    .then(res=>res.data);
+}
