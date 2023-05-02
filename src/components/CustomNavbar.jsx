@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Navigate, NavLink as ReactLink, useNavigate } from 'react-router-dom';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
 import {
@@ -15,8 +15,11 @@ import {
   DropdownItem,
   NavbarText,
 } from 'reactstrap';
+import userContext from '../context/userContext';
 
 const CustomNavbar=()=>{
+
+    const userContextData = useContext(userContext);
 
     let navigate = useNavigate();
 
@@ -35,6 +38,10 @@ const CustomNavbar=()=>{
       doLogout(()=>{
         // logged out
         setLogin(false);
+        userContextData.setUser({
+          data:user,
+          login:false
+        });
         navigate("/");
       });
     };
@@ -62,17 +69,17 @@ const CustomNavbar=()=>{
             <NavItem>
               <NavLink tag={ ReactLink } to="/about">About</NavLink>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <NavLink tag={ ReactLink } to="/services">Services</NavLink>
-            </NavItem>
+            </NavItem> */}
            
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem tag={ReactLink} to="/contact">Contact Us</DropdownItem>
-                <DropdownItem>Forum</DropdownItem>
+                <DropdownItem tag={ReactLink} to="/contact">Contact</DropdownItem>
+                <DropdownItem>Docs</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Developer</DropdownItem>
               </DropdownMenu>
@@ -84,7 +91,7 @@ const CustomNavbar=()=>{
               login && (
                 <>
                 <NavItem>
-                  <NavLink tag={ReactLink} to="/user/profile-info">Profile</NavLink>
+                  <NavLink tag={ReactLink} to={'/user/profile-info/'+user.id}>Profile</NavLink>
                 </NavItem>
 
                 <NavItem>

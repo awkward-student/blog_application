@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { loadAllPost } from '../services/post-service'
+import { deletePostService, loadAllPost } from '../services/post-service'
 import { Row, Col, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap';
 import Post from './Post';
 import { toast } from 'react-toastify';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 function NewFeed() {
 
@@ -15,6 +16,8 @@ function NewFeed() {
         lastPage:false
     })
 
+    const [currentPage, setCurrentPage] = useState(0);
+
     // function setData(data){
     //     setPostContent({...postContent, content:data.content})
     //     setPostContent({...postContent, pageNumber:data.pageNumber})
@@ -25,8 +28,8 @@ function NewFeed() {
     // }
 
     useEffect(()=>{
-        changePage(0)
-    }, [])
+        changePage(currentPage)
+    }, [currentPage])
 
 
     const changePage=(pageNumber=0, pageSize=5)=>{
@@ -37,7 +40,14 @@ function NewFeed() {
             return;
         }
         loadAllPost(pageNumber, pageSize).then((data)=>{
-            setPostContent(data);
+            setPostContent({
+                content:[...postContent.content,...data.content],
+                pageNumber:data.pageNumber,
+                pageSize:data.pageSize,
+                totalElements:data.totalElements,
+                totalPages:data.totalPages,
+                lastPage:data.lastPage
+            });
             console.log(data);
             window.scroll(0,0)
         }).catch((error)=>{
@@ -47,24 +57,57 @@ function NewFeed() {
     };
 
 
+    function deletePost(post){
+        //going to del post
+        deletePostService(post.postId).then(res=>{
+            console.log(res);
+            toast.success("Post Deleted");
+
+            let newPostContents = postContent.content.filter(p=>p.postId!=post.postId)
+            setPostContent({...postContent, content:newPostContents})
+
+        }).catch((error)=>{
+            console.log(error);
+            toast.error("Error in deleting post")
+        })
+    }
+
+
+    const changePageInfinite=()=>{
+        console.log("page changed");
+        setCurrentPage(currentPage+1)
+    }
+
+
   return (
     <div className="container-fluid">
         <Row>
             <Col md={
                 {
-                    size:10,
-                    offset:1
+                    size:12
                 }
             }>
                 <h1>Blogs Count {postContent?.totalElements}</h1>
 
+                <InfiniteScroll
+                    dataLength={postContent.content.length}
+                    next={changePageInfinite}
+                    hasMore={!postContent.lastPage}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                            <b>Yay, you have seen it all!</b>
+                        </p>
+                    }
+                >
                 {
                     postContent.content.map((post)=>(
-                        <Post post={post} key={post.postId}/>
+                        <Post deletePost={deletePost} post={post} key={post.postId}/>
                     ))
                 }
+                </InfiniteScroll>
 
-                <Container className='text-center mt-3'>
+                {/* <Container className='text-center mt-3'>
                 <Pagination size=''>
                     <PaginationItem onClick={()=>changePage(postContent.pageNumber-1)} disabled={postContent.pageNumber==0}>
                         <PaginationLink previous>
@@ -88,7 +131,7 @@ function NewFeed() {
                         </PaginationLink>
                     </PaginationItem>
                 </Pagination>
-                </Container>
+                </Container> */}
                 
                 
 

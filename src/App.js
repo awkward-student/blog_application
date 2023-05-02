@@ -13,9 +13,13 @@ import Dashboard from './pages/user-routes/Dashboard';
 import PrivateRoutes from './components/PrivateRoutes';
 import ProfileInfo from './pages/user-routes/ProfileInfo';
 import Posts from './pages/PostPage';
+import UserProvider from './context/UserProvider';
+import Categories from './pages/Categories';
+import UpdateBlog from './pages/UpdateBlog';
 
 function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
     <ToastContainer position='bottom-center'/>
       <Routes>
@@ -25,13 +29,16 @@ function App() {
         <Route path="/signup" element={ <Signup /> }/>
         <Route path="/about" element={ <About /> }/>
         <Route path="/services" element={ <Services /> }/>
+        <Route path="/categories/:categoryId" element={ <Categories />}/>
 
         <Route path='/user' element={ <PrivateRoutes />} >
           <Route path='dashboard' element={ <Dashboard /> }/>
-          <Route path='profile-info' element={ <ProfileInfo /> }/>
+          <Route path='profile-info/:userId' element={ <ProfileInfo /> }/>
+          <Route path='update-blog/:blogId' element={ <UpdateBlog /> }/>
         </Route>
       </Routes>
     </BrowserRouter>
+    </UserProvider>
   );
 }
 
