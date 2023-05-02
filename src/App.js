@@ -14,6 +14,7 @@ import PrivateRoutes from './components/PrivateRoutes';
 import ProfileInfo from './pages/user-routes/ProfileInfo';
 import Posts from './pages/PostPage';
 import UserProvider from './context/UserProvider';
+import Categories from './pages/Categories';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/signup" element={ <Signup /> }/>
         <Route path="/about" element={ <About /> }/>
         <Route path="/services" element={ <Services /> }/>
+        <Route path="/categories/:categoryId" element={ <Categories />}/>
 
         <Route path='/user' element={ <PrivateRoutes />} >
           <Route path='dashboard' element={ <Dashboard /> }/>

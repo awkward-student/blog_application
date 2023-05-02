@@ -30,3 +30,10 @@ export const uplaodPostImage=(image, postId)=>{
         }
     }).then((response)=>response.data);
 };
+
+// get category wise posts 
+export function loadPostCategoryWise(categoryId)
+{
+    return PRIVATE_AXIOS.get('/category/'+categoryId+'/posts')
+    .then((response)=>response.data);
+} 
