@@ -40,7 +40,7 @@ const Dashboard=()=>{
         deletePostService(post.postId).then(res=>{
             console.log(res);
             toast.success("Post Deleted");
-            let newPosts = posts.filter(p=>p.postId!=post.postId)
+            let newPosts = posts.filter(p=>p.postId!==post.postId)
             setPosts([...newPosts])
         }).catch((error)=>{
             console.log(error);

@@ -1,12 +1,15 @@
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Base from "../components/Base";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/user-service";
 import { doLogin } from "../auth";
 import { useNavigate } from "react-router-dom";
+import userContext from "../context/userContext";
 
 const Login=()=>{
+
+    const userContextData = useContext(userContext);
 
     const navigate = useNavigate();
 
@@ -37,6 +40,10 @@ const Login=()=>{
                 console.log("login data is saved to local storage");
 
                 // redirecting user to dashboard
+                userContextData.setUser({
+                    data : data,
+                    login : true
+                });
                 navigate("/user/dashboard");
             });
 
